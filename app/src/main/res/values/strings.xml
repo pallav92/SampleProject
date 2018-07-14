@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">SearchWiki</string>
+    <string name="search_wiki_for_anything">Search Wiki for something</string>
+    <string name="search_text">Search</string>
+    <string name="recentsearches">Recent Searches :</string>
+    <string name="networkNotAvailablemessage">No Internet Connection</string>
+    <string name="loading_text">The wiki wizard is at work, please wait.</string>
+    <string name="loading_title">Wiki charm loading</string>
+    <string name="emptySearchMessage">Give the wiki wizard something to search for.</string>
+    <string name="bad_url_error">The wizard found a bad Link</string>
+    <string name="no_title_text">Wizard\'s Own Page</string>
+    <string name="searchPageTitle">Wizard found these articles</string>
+    <string name="home_page_title">Wizard\'s Wiki</string>
+    <string name="app_introduction">Let the Wizard help you at your searches using the wikipedia API</string>
+</resources>
