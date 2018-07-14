@@ -13,12 +13,15 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.assignment.searchwiki.R;
 import com.assignment.searchwiki.adapter.RecentSearchAdapter;
@@ -65,6 +68,16 @@ public class MainActivity extends BaseActivity {
                 Context.MODE_PRIVATE);
         showRecentSearchesFromPreferences();
         setClickListnerOnRecentSearchedItems();
+        actSearchBox.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                   triggerWikiSearchbasedOnKeyword(actSearchBox.getText().toString().trim());
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
 

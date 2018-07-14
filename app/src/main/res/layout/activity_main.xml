@@ -63,6 +63,7 @@
                     android:cursorVisible="false"
                     android:hint="@string/search_wiki_for_anything"
                     android:inputType="text"
+                    android:imeOptions="actionSearch"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="16sp" />
 
