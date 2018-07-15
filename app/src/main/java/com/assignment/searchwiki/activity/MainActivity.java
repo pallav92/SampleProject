@@ -182,7 +182,7 @@ public class MainActivity extends BaseActivity {
                         10,
                         "description",
                         keyword.trim(),
-                        10).enqueue(searchCallback);
+                        100).enqueue(searchCallback);
             }else{
                 showEmptySearchErrorMessage(rlMain);
             }

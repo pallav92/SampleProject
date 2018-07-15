@@ -2,11 +2,9 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackground"
-    tools:background="@drawable/custom_ripple">
+    android:background="@android:color/white">
 
     <ImageView
         android:id="@+id/iv_image"
@@ -28,7 +26,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:text="TextView"
+        android:text="@string/title_missing"
         android:textColor="@android:color/black"
         android:textAlignment="viewStart"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,7 +41,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="No Description Found"
+        android:text="@string/no_desc_text"
         android:textColor="@android:color/darker_gray"
         android:textAlignment="viewStart"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -37,9 +37,10 @@ public class SearchResultActivity extends BaseActivity {
             searchResultAdapter = new SearchResultAdapter(this, pageList);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
             rvSearchResults.setLayoutManager(mLayoutManager);
-            rvSearchResults.setItemAnimator(new DefaultItemAnimator());
             DividerItemDecoration itemDecorator = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-            itemDecorator.setDrawable(ContextCompat.getDrawable(this, R.drawable.custom_divider));
+            if(ContextCompat.getDrawable(this, R.drawable.custom_divider)!=null) {
+                itemDecorator.setDrawable(ContextCompat.getDrawable(this, R.drawable.custom_divider));
+            }
             rvSearchResults.addItemDecoration(itemDecorator);
             rvSearchResults.setAdapter(searchResultAdapter);
         }
@@ -62,7 +63,7 @@ public class SearchResultActivity extends BaseActivity {
     }
 
     private void redirectToWebView(Page page) {
-        if(page!=null && page.getPageid()>0l) {
+        if(page!=null && page.getPageid()>0L) {
             Intent intent = new Intent(this,WebViewActivity.class);
             Bundle bundle = new Bundle();
             bundle.putString(WIKI_PAGE_TITLE,page.getTitle());

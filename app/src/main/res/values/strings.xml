@@ -12,4 +12,6 @@
     <string name="searchPageTitle">Wizard found these articles</string>
     <string name="home_page_title">Wizard\'s Wiki</string>
     <string name="app_introduction">Let the Wizard help you at your searches using the wikipedia API</string>
+    <string name="title_missing">No title found</string>
+    <string name="no_desc_text">No Description Found</string>
 </resources>
