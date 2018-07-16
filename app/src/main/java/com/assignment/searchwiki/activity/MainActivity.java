@@ -35,6 +35,7 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -72,7 +73,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                   triggerWikiSearchbasedOnKeyword(actSearchBox.getText().toString().trim());
+                    triggerWikiSearchbasedOnKeyword(actSearchBox.getText().toString().trim());
                     return true;
                 }
                 return false;
@@ -88,7 +89,7 @@ public class MainActivity extends BaseActivity {
         hs.addAll(recentSearchList);
         recentSearchList.clear();
         recentSearchList.addAll(hs);
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this,3);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 3);
         rvRecentSearches.setLayoutManager(mLayoutManager);
         rvRecentSearches.setItemAnimator(new DefaultItemAnimator());
         recentSearchAdapter = new RecentSearchAdapter(this, recentSearchList);
@@ -112,7 +113,8 @@ public class MainActivity extends BaseActivity {
         rlMain = (RelativeLayout) findViewById(R.id.rl_main);
         llRecents = (LinearLayout) findViewById(R.id.ll_recents);
         autoSuggestList = new ArrayList<>();
-        autosuggestAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, autoSuggestList);
+        autosuggestAdapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, autoSuggestList);
+        actSearchBox.setThreshold(1);
         actSearchBox.setAdapter(autosuggestAdapter);
 
 
@@ -169,7 +171,7 @@ public class MainActivity extends BaseActivity {
 
     private void triggerWikiSearchbasedOnKeyword(String keyword) {
         if (isNetworkAvailable()) {
-            if(!TextUtils.isEmpty(keyword)) {
+            if (!TextUtils.isEmpty(keyword)) {
                 showProgressDialog();
                 wikiAPI.getSearchResults("query",
                         "json",
@@ -183,7 +185,7 @@ public class MainActivity extends BaseActivity {
                         "description",
                         keyword.trim(),
                         100).enqueue(searchCallback);
-            }else{
+            } else {
                 showEmptySearchErrorMessage(rlMain);
             }
         } else {
@@ -191,24 +193,20 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    Callback<JSONArray> autoSuggestCallback = new Callback<JSONArray>() {
+    Callback<List<Object>> autoSuggestCallback = new Callback<List<Object>>() {
         @Override
-        public void onResponse(Call<JSONArray> call, Response<JSONArray> response) {
+        public void onResponse(Call<List<Object>> call, Response<List<Object>> response) {
             Log.d(TAG, response.raw().toString());
             if (response.isSuccessful()) {
-                JSONArray jArray = null;
-                try {
-                    jArray = new JSONArray(response);
-                    if (jArray != null) {
-                        for (int i = 0; i < jArray.getJSONArray(1).length(); i++) {
-                            String SuggestKey = jArray.getJSONArray(1).getString(i);
-                            autoSuggestList.add(SuggestKey);
-                        }
-                    }
-                    autosuggestAdapter.notifyDataSetChanged();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                autoSuggestList.clear();
+                autosuggestAdapter.clear();
+                for (int i = 0; i < ((ArrayList<String>) (response.body().get(1))).size(); i++) {
+                    String SuggestKey = ((ArrayList<String>) (response.body().get(1))).get(i);
+                    autoSuggestList.add(SuggestKey);
                 }
+                Log.d(TAG,autoSuggestList.toString());
+                autosuggestAdapter.addAll(autoSuggestList);
+                autosuggestAdapter.notifyDataSetChanged();
 
             } else {
                 Log.d("AutoSuggestCallback", "Code: " + response.code() + " Message: " + response.message());
@@ -216,7 +214,7 @@ public class MainActivity extends BaseActivity {
         }
 
         @Override
-        public void onFailure(Call<JSONArray> call, Throwable t) {
+        public void onFailure(Call<List<Object>> call, Throwable t) {
             t.printStackTrace();
         }
     };
@@ -228,7 +226,7 @@ public class MainActivity extends BaseActivity {
                 hideProgressDialog();
                 SearchResponseContainer searchResponseContainer = response.body();
                 String recentsearches = sharedpreferences.getString(RECENT_SEARCH_LIST, "");
-                if(!TextUtils.isEmpty(actSearchBox.getText())) {
+                if (!TextUtils.isEmpty(actSearchBox.getText())) {
                     if (recentsearches.length() == 0) {
                         recentsearches += actSearchBox.getText();
                     } else {

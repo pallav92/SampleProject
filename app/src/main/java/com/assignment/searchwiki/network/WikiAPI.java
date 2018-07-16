@@ -4,6 +4,8 @@ import com.assignment.searchwiki.model.SearchResponseContainer;
 
 import org.json.JSONArray;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -14,11 +16,11 @@ public interface WikiAPI {
     String BASE_URL = "http://en.wikipedia.org";
 
     @GET("w/api.php?")
-    Call<JSONArray> getSuggestions(@Query("action") String action,
-                                   @Query("search") String searchText,
-                                   @Query("limit") int limit,
-                                   @Query("namespace") int namespace,
-                                   @Query("format") String format);
+    Call<List<Object>> getSuggestions(@Query("action") String action,
+                              @Query("search") String searchText,
+                              @Query("limit") int limit,
+                              @Query("namespace") int namespace,
+                              @Query("format") String format);
 
     @GET("/w/api.php?")
     Call<SearchResponseContainer> getSearchResults(@Query("action") String action,
